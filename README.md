@@ -1,2 +1,4 @@
-# zadanie-newsletter-1
-Rozwiązania do zadania z newslettera #1
+# javastartpl-wyzwanie
+wyzwania javastartpl newsletter
+
+* https://javastart.pl/baza-wiedzy/newsletter/newsletter/1544629319
