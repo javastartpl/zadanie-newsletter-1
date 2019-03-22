@@ -12,43 +12,53 @@ class Solution {
         List<String> femaleNames = csvReader.getFemaleNames();
         List<Character> firstLetterOfName = csvReader.getFirstLetter();
 
-        Map<String, Integer> mapOfNamesFrequecy = new HashMap<>();
+        Map<String, Integer> mapOfNamesFrequency = new HashMap<>();
         Map<String, Integer> mapOfFemaleNamesFrequency = new HashMap<>();
         Map<Character, Integer> mapOfFirstLetterOfNamesFrequency = new HashMap<>();
 
-        for (String string : names) {
-            mapOfNamesFrequecy.put(string, Collections.frequency(names, string));
-        }
-        for (String string : femaleNames) {
-            mapOfFemaleNamesFrequency.put(string, Collections.frequency(femaleNames, string));
-        }
+        makeMapStringWithFrequency(names, mapOfNamesFrequency);
+        makeMapStringWithFrequency(femaleNames, mapOfFemaleNamesFrequency);
+        makeMapCharacterWithFrequency(firstLetterOfName, mapOfFirstLetterOfNamesFrequency);
 
-        for (Character c : firstLetterOfName) {
-            mapOfFirstLetterOfNamesFrequency.put(c, Collections.frequency(firstLetterOfName, c));
-        }
+        System.out.println("***** Oto 10 najpopularniejszych imion: *****");
+        print_N_NamesOfSolution(mapOfNamesFrequency, 10);
+        System.out.println("***** Oto najpopularniejsze imię/imiona żeńskie: ");
+        print_N_NamesOfSolution(mapOfFemaleNamesFrequency, 1);
+        System.out.println("***** Na te litery imiona zaczynają się najczęściej *****");
+        print_N_CharactersOfSolution(mapOfFirstLetterOfNamesFrequency, 3);
+    }
 
-        for (int i = 0; i < 10; i++) {
-            Optional<Map.Entry<String, Integer>> maxEntry = mapOfNamesFrequecy.entrySet()
-                    .stream()
-                    .max(Comparator.comparing(Map.Entry::getValue));
-            System.out.println("Najczęstsze imie: " + maxEntry.get().getKey() + " " + maxEntry.get().getValue());
-            mapOfNamesFrequecy.remove(maxEntry.get().getKey(), maxEntry.get().getValue());
-        }
-
-        System.out.println("A teraz żeńskie: ");
-
-        Optional<Map.Entry<String, Integer>> maxEntry = mapOfFemaleNamesFrequency.entrySet()
-                .stream()
-                .max(Comparator.comparing(Map.Entry::getValue));
-        System.out.println("Najczęstsze imie żeńskie: " + maxEntry.get().getKey() + " " + maxEntry.get().getValue());
-
-        System.out.println("A teraz litery: ");
-        for (int i = 0; i < 3; i++) {
+    private void print_N_CharactersOfSolution(Map<Character, Integer> mapOfFirstLetterOfNamesFrequency,
+            int howManyCharacters) {
+        for (int i = 0; i < howManyCharacters; i++) {
             Optional<Map.Entry<Character, Integer>> maxEntryLetter = mapOfFirstLetterOfNamesFrequency.entrySet()
                     .stream()
                     .max(Comparator.comparing(Map.Entry::getValue));
-            System.out.println("Najczęstsze imie: " + maxEntryLetter.get().getKey() + " " + maxEntryLetter.get().getValue());
+            System.out.println(maxEntryLetter.get().getKey() + " " + maxEntryLetter.get().getValue());
             mapOfFirstLetterOfNamesFrequency.remove(maxEntryLetter.get().getKey(), maxEntryLetter.get().getValue());
+        }
+    }
+
+    private void print_N_NamesOfSolution(Map<String, Integer> mapWithFrequency, int howManyNames) {
+        for (int i = 0; i < howManyNames; i++) {
+            Optional<Map.Entry<String, Integer>> maxEntry = mapWithFrequency.entrySet()
+                    .stream()
+                    .max(Comparator.comparing(Map.Entry::getValue));
+            System.out.println(maxEntry.get().getKey() + " " + maxEntry.get().getValue());
+            mapWithFrequency.remove(maxEntry.get().getKey(), maxEntry.get().getValue());
+        }
+    }
+
+    private void makeMapCharacterWithFrequency(List<Character> firstLetterOfName,
+            Map<Character, Integer> mapOfFirstLetterOfNamesFrequency) {
+        for (Character c : firstLetterOfName) {
+            mapOfFirstLetterOfNamesFrequency.put(c, Collections.frequency(firstLetterOfName, c));
+        }
+    }
+
+    private void makeMapStringWithFrequency(List<String> names, Map<String, Integer> mapWithFrequency) {
+        for (String string : names) {
+            mapWithFrequency.put(string, Collections.frequency(names, string));
         }
     }
 }
