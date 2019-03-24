@@ -1,16 +1,18 @@
+import java.util.Objects;
+
 class Names {
-    private String yearOfBirth;
     private String gender;
     private String firstNameChild;
-    private String count;
-    private String rank;
+    private int count;
 
-    Names(String yearOfBirth, String gender, String firstNameChild, String count, String rank) {
-        this.yearOfBirth = yearOfBirth;
+    Names(String gender, String firstNameChild, Integer count) {
         this.gender = gender;
         this.firstNameChild = firstNameChild;
         this.count = count;
-        this.rank = rank;
+    }
+
+    Integer getCount() {
+        return count;
     }
 
     String getFirstNameChild() {
@@ -19,5 +21,18 @@ class Names {
 
     String getGender() {
         return gender;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Names names = (Names) o;
+        return Objects.equals(firstNameChild, names.firstNameChild);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstNameChild);
     }
 }
